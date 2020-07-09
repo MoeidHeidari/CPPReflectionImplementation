@@ -61,7 +61,7 @@ limitations under the License. */
      #else
      #      define REF_COMPILER REF_CLANG_COMPILER
      #endif
-     #      define RET_COMPILER_VERSION (((__clang_major__)*100) + (__clang_minor__*10) + __clang_patchlevel__)
+     #      define REF_COMPILER_VERSION (((__clang_major__)*100) + (__clang_minor__*10) + __clang_patchlevel__)
      #elif  defined(_MSC_VER)
      #      define RF_COMPILER REF_MSVC_COMPILER
      #      define REF_COMP_VER _MSC_VER
@@ -71,38 +71,73 @@ limitations under the License. */
      //
      // ─── ARCHITECTURE ───────────────────────────────────────────────────────────────
      //
-     #if defined(__x86_64__) || defined(_M_X64) || defined(__powerpc64__) || defined(__alpha__) ||\
-         defined(__ia64__) || defined(__s390__) || defined(__s390x__) || defined(_LP64) || defined(__LP64__)
-     #   define REF_ARCH_TYPE RTTR_ARCH_64
-     
+     #if    defined(__x86_64__) || defined(_M_X64) || defined(__powerpc64__) || defined(__alpha__) ||\
+            defined(__ia64__) || defined(__s390__) || defined(__s390x__) || defined(_LP64) || defined(__LP64__)
+     #      define REF_ARCH_TYPE REF_ARCH_64
+     #else
+     #      define REF_ARCH_TYPE REF_ARCH_32
+     #endif
+     #if    REF_COMPILER == REF_MSVC_COMPILER
+     #      define REF_INLINE          inline
+     #      define REF_FORCE_INLINE    __forceinline o
+     #elif  REF_COMPILER == REF_GNUC_COMPILER
+     #      define REF_INLINE          inline
+     #      define REF_FORCE_INLINE   inline  __attribute__((always_inline))
+     #elif  REF_COMPILER == REF_CLANG_COMPILER || REF_COMPILER == REF_APPLECLANG_COMPILER
+     #      define REF_INLINE          inline
+     #      define REF_FORCE_INLINE    inline  __attribute__((always_inline))
+     #else
+     #      define REF_INLINE         inline
+     #      define REF_FORCE_INLINE   inline 
+     #endif
+     //
+     // ─── MACROS TO ENABLE SOME USEFUL FEATURES IN C++11 WHICH THEY ARE NOT AVAILABLE IN ALL COMPILERS 
+     //
+      #endif
+     #if    REF_COMPILER == REF_MSVC_COMPILER
+     #      if !define(__cpp_constexpr) || (__cpp_1 < 201304)
+     #      define REF_NO_CPP11_CONSTEXPR_AVAILABLE
+     #      define REF_NO_CPP14_CONSTEXPR_AVAILABLE
+     #      endif
+     #      if !define(_MSVC_LANG) || (_MSVC_LANG < 201703L)
+     #      define REF_NO_CPP17_CONSTEXPR_AVAILABLE
+     #      endif
+     #if REF_COMPILER == REF_COMPILER_GNUC ||  REF_COMPILER == REF_COMPILER_CLANG || REF_COMPILER == REF_COMPILER_APPLECLANG
+     #   if !defined(__cpp_constexpr) || (__cpp_constexpr < 201304)
+     #       define REF_NO_CPP14_CONSTEXPR_AVAILABLE
+     #   endif
+     #   if !defined(cpp_noexcept)
+     #       define REF_NO_CPP11_CONSTEXPR_AVAILABLE
+     #   endif
+     #   if !defined(__cpp_noexcept_function_type) || (__cpp_noexcept_function_type < 201510)
+     #       define REF_NO_CPP17_CONSTEXPR_AVAILABLE
+     #   endif
+     #endif
+     #if defined(REF_NO_CXX11_CONSTEXPR)
+     #   define REF_CONSTEXPR
+     #   define REF_CONSTEXPR_OR_CONST const
+     #else
+     #   define REF_CONSTEXPR constexpr
+     #   define REF_CONSTEXPR_OR_CONST constexpr
+     #endif
 
 
-         
+     #if defined(REF_NO_CXX14_CONSTEXPR)
+     #   define REF_CXX14_CONSTEXPR
+     #else
+     #   define REF_CXX14_CONSTEXPR constexpr
+     #endif
 
-
-
-         
-
-
-
-
-         
-
-
-         
-
-         
-
-
-
-         
-
-
-
-
- }
-
-#endif
+     #ifdef REF_NO_CXX11_NOEXCEPT
+     #   define REF_NOEXCEPT
+     #   define REF_NOEXCEPT_OR_NOTHROW throw()
+     #else
+     #   define REF_NOEXCEPT noexcept
+     #   define REF_NOEXCEPT_OR_NOTHROW noexcept
+     #endif
+     #define RTTR_STATIC_CONSTEXPR static RTTR_CONSTEXPR_OR_CONST
+     #endif
+}
 
 
 

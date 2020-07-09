@@ -12,6 +12,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // ────────────────────────────────────────────────────────────────────────────────
+#ifndef REF_STRING_VIEW_H_
+#define REF_STRING_VIEW_H_
+//
+// ─── HEADER FILES INCLUDS ───────────────────────────────────────────────────────
+//
 #include "Reflection/Details/BasicInfo/Prerequisites.h"
-#include <type_traits>
+#include <string>
+#include <ostream>
 
+namespace RET
+{
+    /*!
+    \ref(ref) CharLikeObjects_descriptor class represents a bunch of information about some non-owing and constant char-like sequence objects in memory.
+    */
+
+   template<typename CharT,typename Traits = std::char_traits<CharT>>
+   class CharLikeObjects_Descriptor
+   {
+       public:
+       using type_of_trait          = Traits;
+       using type_reference         = CharT&;
+       using type_const_ptr         =const ChatT*;
+       using type_ptr               =CharT*;
+       
+
+   };
+
+}
+
+#endif

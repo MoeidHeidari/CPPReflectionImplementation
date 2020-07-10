@@ -31,11 +31,46 @@ namespace RET
    class CharLikeObjects_Descriptor
    {
        public:
-       using type_of_trait          = Traits;
-       using type_reference         = CharT&;
-       using type_const_ptr         =const ChatT*;
-       using type_ptr               =CharT*;
+       //
+       // ─── USING DECLARATIVES BEGIN ───────────────────────────────────────────────────
+       //    
+       using type_of_trait                  =Traits;
+       using type_reference                 =CharT&;
+       using type_const_reference           =const CharT&;
+       using type_const_ptr                 =const ChatT*;
+       using type_const_ptr                 =const CharT*;
+       using type_ptr                       =CharT*;
+       using type_value                     =CharT;
+       using type_size                      =std::size_t;
+       using type_const_iterator            =type_const_pointer;
+       using type_iterator                  =type_const_iterator;
+       using type_const_reverse_iterator    = std::reverse_iterator<type_const_iterator>;
+       using type_reverse_iterator          = type_const_reverse_iterator;
+       using type_deference                 =std::ptrdiff_t;
+       REF_STATIC_CONSTEXPR type_size npos = type_size(-1);
+       //
+       // ─────────────────────────────────────────────────── USING DECLARATIVES END ─────
+       //
+
+    
+       /*! 
+        * \brief Default constructor. It constructs an empty CharLikeObjects_Descriptor instance. 
+        */
+       REF_CONSTEXPR CharLikeObjects_Descriptor() REF_NOEXCEPT;
+       /*!
+       \brief Copy constructor. It constructs a view of the same content as \p other. 
+       */
+       REF_CONSTEXPR CharLikeObjects_Descriptor(const CharLikeObjects_Descriptor& other) REF_NOEXCEPT;
        
+       
+
+
+
+       
+
+           
+
+
 
    };
 

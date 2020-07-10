@@ -102,6 +102,7 @@ limitations under the License. */
      #      if !define(_MSVC_LANG) || (_MSVC_LANG < 201703L)
      #      define REF_NO_CPP17_CONSTEXPR_AVAILABLE
      #      endif
+     #endif
      #if REF_COMPILER == REF_COMPILER_GNUC ||  REF_COMPILER == REF_COMPILER_CLANG || REF_COMPILER == REF_COMPILER_APPLECLANG
      #   if !defined(__cpp_constexpr) || (__cpp_constexpr < 201304)
      #       define REF_NO_CPP14_CONSTEXPR_AVAILABLE
@@ -135,7 +136,7 @@ limitations under the License. */
      #   define REF_NOEXCEPT noexcept
      #   define REF_NOEXCEPT_OR_NOTHROW noexcept
      #endif
-     #define RTTR_STATIC_CONSTEXPR static RTTR_CONSTEXPR_OR_CONST
+     #define REF_STATIC_CONSTEXPR static REF_CONSTEXPR_OR_CONST
      #endif
 }
 
